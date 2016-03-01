@@ -2,6 +2,7 @@
 
 var path = process.cwd();
 var ClickHandler = require(path + '/app/controllers/clickHandler.server.js');
+var BotController = require(path + '/app/controllers/botController.server.js');
 
 module.exports = function (app, passport) {
 
@@ -14,7 +15,18 @@ module.exports = function (app, passport) {
 	}
 
 	var clickHandler = new ClickHandler();
-
+	var botController = new BotController();
+	
+	////////
+	
+	app.route('/AAE8ABaYBH7T4uY8op3x8M8vD3-3w2OW6Yk')
+		.post(function(req, res) {
+			console.log(req.body);
+			// botController.routeBot(req, res);
+		});
+	
+	////////
+	
 	app.route('/')
 		.get(isLoggedIn, function (req, res) {
 			res.sendFile(path + '/public/index.html');

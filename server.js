@@ -6,6 +6,12 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var session = require('express-session');
 
+var path = process.cwd();
+var BotController = require(path + '/app/controllers/botController.server.js');
+var botController = new BotController();
+
+var https = require('https');
+
 var app = express();
 require('dotenv').load();
 require('./app/config/passport')(passport);
@@ -26,6 +32,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 routes(app, passport);
+
+var checkBot = setInterval(botController.getUpdates, 5000);
 
 var port = process.env.PORT || 8080;
 app.listen(port,  function () {
