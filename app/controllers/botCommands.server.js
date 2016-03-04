@@ -1,14 +1,17 @@
 var motivations = require('../models/motivations.js');
+var banyaUsers = require('../models/banyaUsers.js');
+var trollPhrases = require('../models/trollPhrasesStart.js');
 
-function botCommands(chat, command) {
+function botCommands(chat, command, fromId) {
 
     var response;
     var name = chat.first_name || chat.username;
+    var commandParsed = (/^\//.test(command)) ? command : "just text";
     
     
     
     
-    switch(command) {
+    switch(commandParsed) {
         
         case "/start":
             response = "Добрый день, " + name + "!\n\n"
@@ -16,9 +19,9 @@ function botCommands(chat, command) {
                         + "\/start - начало диалога со мной \n"
                         + "\/motivateme - получить мотивацию \n"
                         + "\/trollme - потроллить себя за несоблюдение традиции \n"
-                        + "\/trolluser - потроллить другого юзера, формат команды: \/trolluser \<@user\> \<фраза-для-троллинга\>. Фраза будет добавлена в каталог троллинговых фраз для указанного юзера.\n"
+                        // + "\/trolluser - потроллить другого юзера, формат команды: \/trolluser \<@user\> \<фраза-для-троллинга\>. Фраза будет добавлена в каталог троллинговых фраз для указанного юзера.\n"
                         + "\/help - помощь\n\n"
-                        + "Можешь отправить ссылку на меня своим друзьям. Возможно, им я буду полезен.\n\n";
+                        + "Можешь отправить ссылку на меня своим друзьям. Возможно, им я буду полезен.\n";
             break;
             
         case "/motivateme":
@@ -26,17 +29,22 @@ function botCommands(chat, command) {
             response = motivations[selection];
             break;
             
+        case "/trollme":
+
+            break;
+            
         case "/help":
             response = "Напоминаю, " + name + ", что обратиться ко мне можно так: \n\n"
                         + "\/start - начало диалога со мной \n"
                         + "\/motivateme - узнать свое будущее \n"
                         + "\/trollme - потроллить себя за несоблюдение традиции \n"
-                        + "\/trolluser - потроллить другого юзера, формат команды: \/trolluser \<@user\> \<фраза-для-троллинга\>. Фраза будет добавлена в каталог троллинговых фраз для указанного юзера.\n"
+                        // + "\/trolluser - потроллить другого юзера, формат команды: \/trolluser \<@user\> \<фраза-для-троллинга\>. Фраза будет добавлена в каталог троллинговых фраз для указанного юзера.\n"
                         + "\/help - помощь\n\n";
             break;
         
-        default:
-            response = name + ", настройся на правильную волну и используй только те команды, которые я понимаю."
+        case "just text":
+            // response = name + ", настройся на правильную волну и используй только те команды, которые я понимаю."
+            break;
     }
     
     return response;

@@ -34,7 +34,7 @@ function BotController() {
                var result = JSON.parse(body);
                result = result.result;
                // console.log(body.result);
-               next(result);
+               if (result[0] && next) next(result);
            });
         }).on('error', function(err) {
             console.log("Got error: ", err);
@@ -43,7 +43,7 @@ function BotController() {
     
     function getOffset(next) {
         Counter
-			.findOne({ '_id': counterId }, function (err, result) {
+			.findOne( { '_id': counterId }, function (err, result) {
 				if (err) console.log(err);
                 console.log(".getOffset reports => Current offset: ", result.offset, " Current counter: ", result.counter);
 				next(result.offset + 1);
@@ -66,10 +66,12 @@ function BotController() {
     
     function handleUpdates(result) {
         
+        // console.log("telegram api response object 'message.from.id': \n", result[0].message.from.id);
+        
         for (var i = 0; i < result.length; i++) {
             setOffset(result[i].update_id);
             // console.log("Getting response for: ", result[i].message.chat, result[i].message.text);
-            var response = botCommands(result[i].message.chat, result[i].message.text);
+            var response = botCommands(result[i].message.chat, result[i].message.text, result[i].message.from.id);
             sendBotMessage(result[i].message.chat.id, response);
         }
         
@@ -144,6 +146,8 @@ function BotController() {
                 console.log("Printed by .startCounter =>");
                 console.log("Current counter: \n", counter);
                 console.log("Current count: ", counter[0].counter, " Current offset: ", counter[0].offset);
+                counterId = counter[0]._id;
+        	    if (next) next(counterId);
             }
             
             //*/

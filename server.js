@@ -39,7 +39,7 @@ app.use(passport.session());
 
 routes(app, passport);
 
-var checkBot = setInterval(botController.getUpdates, 100000);
+var checkBot = setInterval(botController.getUpdates, 5000);
 
 var port = process.env.PORT || 8080;
 app.listen(port,  function () {
