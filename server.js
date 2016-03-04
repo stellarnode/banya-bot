@@ -7,8 +7,14 @@ var passport = require('passport');
 var session = require('express-session');
 
 var path = process.cwd();
+
 var BotController = require(path + '/app/controllers/botController.server.js');
 var botController = new BotController();
+var botCounter;
+botController.startCounter(function(id) {
+	botCounter = id;
+	console.log("botCounter ID: ", botCounter);
+});
 
 var https = require('https');
 
@@ -33,7 +39,7 @@ app.use(passport.session());
 
 routes(app, passport);
 
-var checkBot = setInterval(botController.getUpdates, 5000);
+var checkBot = setInterval(botController.getUpdates, 100000);
 
 var port = process.env.PORT || 8080;
 app.listen(port,  function () {

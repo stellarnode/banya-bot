@@ -1,10 +1,12 @@
 var path = process.cwd();
 var https = require('https');
 var botCommands = require(path + '/app/controllers/botCommands.server.js');
-var FortuneUsers = require('../models/fortuneUsers.js');
-var Counters = require('../models/counters.js');
+var BanyaUsers = require('../models/banyaUsers.js');
+var Counter = require('../models/counters.js');
 
 function BotController() {
+    
+    var counterId;
     
     function buildReqUrl(method, params) {
         var apiEndpoint = process.env.TELEGRAM_API_ENDPOINT;
@@ -31,7 +33,7 @@ function BotController() {
            res.on('end', function() {
                var result = JSON.parse(body);
                result = result.result;
-               console.log(body.result);
+               // console.log(body.result);
                next(result);
            });
         }).on('error', function(err) {
@@ -39,24 +41,27 @@ function BotController() {
         });
     }
     
-    function getOffset() {
-        Counters
-			.find({})
-			.exec(function (err, result) {
-				if (err) { console.log(err); }
-
-				return result.offset;
-			});
+    function getOffset(next) {
+        Counter
+			.findOne({ '_id': counterId }, function (err, result) {
+				if (err) console.log(err);
+                console.log(".getOffset reports => Current offset: ", result.offset, " Current counter: ", result.counter);
+				next(result.offset + 1);
+				});
     }
     
     function setOffset(newOffset) {
-        Counters
-			.findOneAndUpdate({}, { $inc: { 'counter': 1 } }, { $set: { 'offset': newOffset } })
-			.exec(function (err, result) {
-					if (err) { console.log(err); }
-					return;
-				}
-			);
+        Counter
+			.findOne({ '_id': counterId }, function (err, result) {
+			    if (err) console.error(err);
+			    result.counter += 1;
+			    result.offset = newOffset;
+			    
+			    result.save(function(err) {
+			        if (err) console.error(err);
+			        console.log("New offset set: ", result.offset);
+			    });
+			});
     }
     
     function handleUpdates(result) {
@@ -86,10 +91,67 @@ function BotController() {
     };
     
     this.getUpdates = function() {
-        var offset = getOffset();
-        var url = buildReqUrl('/getUpdates', [['offset', offset]]);
-        sendAPIRequest(url, handleUpdates);
+        getOffset(function(offset) {
+            var url = buildReqUrl('/getUpdates', [['offset', offset]]);
+            sendAPIRequest(url, handleUpdates);
+        });
     };
+    
+    
+    this.startCounter = function(next) {
+        
+        Counter.find({}, function(err, counter) {
+            if (err) console.error(err);
+            
+            console.log("current counter obj length: ", counter.length);
+            console.log("counter obj: \n", counter);
+            
+            
+            /* Uncomment this block to delete all previous counters
+            for (var i = counter.length - 1; i >= 0; i--) {
+                counter[i].remove(function(err) {
+                    if (err) console.error(err);
+                    console.log("counter ", i, " removed. Current length: ", counter.length);
+                });
+            }
+            //*/
+            
+            
+            //* Uncomment this block to create new counters
+            
+            if (counter.length === 0) {
+                
+                var newCounter = new Counter({
+				    counter: 0,
+				    offset: 0
+				});
+				
+                newCounter.save(function (err) {
+        			if (err) console.error(err);
+        			console.log("New counter started. Counter: ", newCounter.counter, " Offset: ", newCounter.offset);
+        			
+        			Counter.find({}, function(err, counter) {
+        			    if (err) console.error(err);
+        			    console.log("Saved counter: ", counter);
+        			    console.log("Saved counter ID: ", counter[0]._id);
+        			    counterId = counter[0]._id;
+        			    if (next) next(counterId);
+        			});
+        			
+        		});
+	
+            } else {
+                console.log("Printed by .startCounter =>");
+                console.log("Current counter: \n", counter);
+                console.log("Current count: ", counter[0].counter, " Current offset: ", counter[0].offset);
+            }
+            
+            //*/
+            
+            
+        });
+
+	}
     
 }
 

@@ -3,9 +3,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var FortuneUser = new Schema({
+var BanyaUser = new Schema({
 	user: {
-		userid: String,
+		userid: Number,
 		firstName: String,
 		username: String,
         lastRequest: { type: Date, default: Date.now }
@@ -13,4 +13,4 @@ var FortuneUser = new Schema({
    replies: Array,
 });
 
-module.exports = mongoose.model('FortuneUser', FortuneUser);
+module.exports = mongoose.model('BanyaUser', BanyaUser);
