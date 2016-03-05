@@ -12,8 +12,8 @@ module.exports = function(message, next) {
                     } else {
                         response = "Похоже, ты чист. Но все равно - иди в баню.";
                     }
-                    console.log("=> trollme returns: ", response);
-                    console.log("=> trollme process took: ", Date.now() - startTime, "ms");
+                    console.log("--- trollme returns: ", response);
+                    console.log("--- trollme process took: ", Date.now() - startTime, "ms");
                     
                     if (next) {
                         next(response);
