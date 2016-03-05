@@ -1,8 +1,9 @@
 var path = process.cwd();
 var https = require('https');
-var botCommands = require(path + '/app/controllers/botCommands.server.js');
+var botCommandsRouter = require(path + '/app/controllers/botCommandsRouter.server.js');
 var BanyaUsers = require('../models/banyaUsers.js');
 var Counter = require('../models/counters.js');
+var checkUser = require("../models/checkUser.js");
 
 function BotController() {
     
@@ -45,7 +46,7 @@ function BotController() {
         Counter
 			.findOne( { '_id': counterId }, function (err, result) {
 				if (err) console.log(err);
-                console.log(".getOffset reports => Current offset: ", result.offset, " Current counter: ", result.counter);
+                console.log(new Date().toISOString(), ".getOffset reports => Current offset: ", result.offset, " Current counter: ", result.counter);
 				next(result.offset + 1);
 				});
     }
@@ -59,31 +60,23 @@ function BotController() {
 			    
 			    result.save(function(err) {
 			        if (err) console.error(err);
-			        console.log("New offset set: ", result.offset);
+			        console.log(new Date().toISOString(), "New offset set: ", result.offset);
 			    });
 			});
     }
     
     function handleUpdates(result) {
         
-        // console.log("telegram api response object 'message.from.id': \n", result[0].message.from.id);
+        console.log("telegram api response object 'message': \n", result[0].message /*.from.id*/ );
         
         for (var i = 0; i < result.length; i++) {
             setOffset(result[i].update_id);
             // console.log("Getting response for: ", result[i].message.chat, result[i].message.text);
-            var response = botCommands(result[i].message.chat, result[i].message.text, result[i].message.from.id);
+            var response = botCommandsRouter(result[i].message); // .chat, result[i].message.text, result[i].message.from.id);
             sendBotMessage(result[i].message.chat.id, response);
         }
         
     }
-    
-    function handleCommands() {
-        
-    };
-    
-    function handleResponses() {
-        
-    };
     
     function sendBotMessage(chat, message) {
         var url = buildReqUrl('/sendMessage', [['chat_id', chat], ['text', encodeURIComponent(message)]]);
@@ -98,6 +91,10 @@ function BotController() {
             sendAPIRequest(url, handleUpdates);
         });
     };
+    
+    this.sendReply = function() {
+        
+    }
     
     
     this.startCounter = function(next) {

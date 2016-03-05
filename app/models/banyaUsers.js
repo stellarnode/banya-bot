@@ -10,9 +10,11 @@ var BanyaUser = new Schema({
 		secondName: String,
 		username: String,
 	},
-   replies: Array,
-   trollPhrases: Array,
-   lastRequest: { type: Date, default: Date.now }
+	previousCommand: String,
+   	replies: Array,
+   	trollPhrases: Array,
+   	createdAt: { type: Date, default: Date.now },
+   	lastRequest: { type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model('BanyaUser', BanyaUser);

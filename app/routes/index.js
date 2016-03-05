@@ -21,7 +21,7 @@ module.exports = function (app, passport) {
 	
 	app.route('/AAE8ABaYBH7T4uY8op3x8M8vD3-3w2OW6Yk')
 		.post(function(req, res) {
-			console.log(req.body);
+			// console.log(req.body);
 			// botController.routeBot(req, res);
 		});
 	
