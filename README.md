@@ -1,4 +1,4 @@
-# Banyd Bot
+# Banya Bot
 
 ## Overview
 
