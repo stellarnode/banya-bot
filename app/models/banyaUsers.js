@@ -9,6 +9,7 @@ var BanyaUser = new Schema({
 		firstName: String,
 		secondName: String,
 		username: String,
+		phoneNumber: String
 	},
 	previousCommand: String,
    	replies: Array,

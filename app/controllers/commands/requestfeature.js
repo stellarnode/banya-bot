@@ -10,7 +10,7 @@ function featureRequest(message, description, next) {
         features.forEach(function(el) {
             el.remove(function(err) {
                 if (err) console.error(err);
-                console.log("= entry", el.id, "removed.");
+                console.log("= feature request entry", el.id, "removed.");
             });
         });
     });
@@ -31,12 +31,12 @@ function featureRequest(message, description, next) {
     
     newFeature.save(function(err) {
         if (err) console.error(err);
-        console.log("--- saved new feature request from: ", message.from.username);
+        console.log("--- saved new feature request from: ", message.from.username, message.from.first_name, message.from.last_name);
         FeatureRequest.find({}, function(err, features) {
             if (err) console.error(err);
             console.log("--- current number of proposed features: ", features.length);
             features.forEach((el) => {
-                console.log("   id:", el.id, " ", el.requestedFeature, " - proposed by", el.proposedBy.firstName, el.proposedBy.userid);
+                console.log("   id:", el.id, " ", el.requestedFeature, " - proposed by", el.proposedBy.firstName, el.proposedBy.secondName, el.proposedBy.userid);
             });
             if (next) next(features);
         });
