@@ -1,7 +1,7 @@
 var trollPhrases = require('../../models/trollPhrasesStart.js');
 var checkUser = require("../../models/checkUser.js");
 
-module.exports = function(message) {
+module.exports = function(message, next) {
     var response;
     
     var startTime = Date.now();
@@ -14,7 +14,13 @@ module.exports = function(message) {
                     }
                     console.log("=> trollme returns: ", response);
                     console.log("=> trollme process took: ", Date.now() - startTime, "ms");
-                    return response;
+                    
+                    if (next) {
+                        next(response);
+                    } else {
+                        return response;
+                    }
+                    
                 });
 
 }

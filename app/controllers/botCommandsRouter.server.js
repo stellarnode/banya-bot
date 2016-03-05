@@ -12,6 +12,7 @@ var trolluser = require("./commands/trolluser.js");
 function botCommandsRouter(message) {
 
     var response;
+    var message = message;
     var name = message.from.first_name || message.from.username;
     var commandParsed = (/^\//.test(message.text)) ? message.text : "just text";
     
@@ -30,7 +31,9 @@ function botCommandsRouter(message) {
                 break;
                 
             case "/trollme":
-                response = trollme(message);
+                trollme(message, function(reply) {
+                    response = reply;
+                });
                 break;
                 
             case "/help":
@@ -45,7 +48,7 @@ function botCommandsRouter(message) {
         if (next) {
             next(response);
         } else if (commandParsed === "/trollme" && response === undefined) {
-            return response; // = "Похоже, ты чист. Но все равно - иди в баню.";
+            return response = "Похоже, ты чист. Но все равно - иди в баню.";
         } else {
             return response;
         }
@@ -64,21 +67,22 @@ function botCommandsRouter(message) {
                 
                 user.save(function(err) {
                     if (err) console.error(err);
-                    console.log(new Date().toISOString(), " User updated: ", user.userid, user.user.username);
+                    console.log(new Date().toISOString(), "User updated: ", user.userid, user.user.username);
                 });
             }
         });
         
     }
     
+        
     var startTimer = Date.now();
-    
+
     response = handleCommands();
     checkUser(message, function(user) {
         updateUser(user, response);
     });
     
-    console.log("=> botCommandsRouter took: ", Date.now() - startTimer, "ms");
+    console.log(new Date().toISOString(), "=> botCommandsRouter took: ", Date.now() - startTimer, "ms");
     
     return response;
     
