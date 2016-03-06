@@ -27,6 +27,7 @@
     "dotenv": "^1.2.0",
     "mongodb": "^2.1.7",
     "mongoose": "^4.1.0",
-    "teabot": "^2.0.0"
+    "teabot": "^2.0.0",
+    "teabot-botan": "^1.0.1"
   }
 }

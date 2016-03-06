@@ -18,6 +18,8 @@ var requestfeature = require("./app/controllers/commands/requestfeature.js");
 var reportbug = require("./app/controllers/commands/reportbug.js");
 
 var TeaBot = require("teabot")(process.env.BOT_TOKEN, process.env.BOT_NAME);
+TeaBot.use('analytics', require('teabot-botan')(process.env.BOTAN_TOKEN));
+
 
 function printFrom(dialog) {
     var from = {
