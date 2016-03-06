@@ -4,6 +4,7 @@ var util = require("util");
 var mongoose = require('mongoose');
 var path = process.cwd();
 require('dotenv').load();
+var app = require('express')();
 
 if (process.env.MONGOLAB_URI) {
     mongoose.connect(process.env.MONGOLAB_URI);
@@ -271,3 +272,8 @@ TeaBot
  
 console.log(new Date().toISOString(), "BANYA BOT PROUDLY STARTED...");
 TeaBot.startPolling();
+
+var port = process.env.PORT || 8080;
+app.listen(port,  function () {
+	console.log('Node.js listening on port ' + port + '...');
+});
