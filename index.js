@@ -273,7 +273,7 @@ TeaBot
 console.log(new Date().toISOString(), "BANYA BOT PROUDLY STARTED...");
 TeaBot.startPolling();
 
-var port = process.env.PORT || 8080;
+var port = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 8080; // first one added for OpenShift
 app.listen(port,  function () {
 	console.log('Node.js listening on port ' + port + '...');
 });
