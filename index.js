@@ -273,9 +273,27 @@ TeaBot
 console.log(new Date().toISOString(), "BANYA BOT PROUDLY STARTED...");
 TeaBot.startPolling();
 
-var port = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 8080; // first one added for OpenShift
-var ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'; // first one added for OpenShift
 
-app.listen(port, ip_address, function () {
-	console.log('Node.js listening on port ' + port + ' and ip address ' + ip_address + '...');
-});
+// Environment settings for OpenShift and Heroku
+
+if (process.env.OPENSHIFT_NODEJS_PORT) {
+    var port = process.env.OPENSHIFT_NODEJS_PORT;
+} else {
+    var port = process.env.PORT || 8080;
+}
+
+if (process.env.OPENSHIFT_NODEJS_IP) {
+    var ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'; // first one added for OpenShift
+}
+
+
+if (ip_address) {
+    app.listen(port, ip_address, function () {
+    	console.log('Node.js listening on port ' + port + ' and ip address ' + ip_address + '...');
+    });
+} else {
+    app.listen(port, function () {
+    	console.log('Node.js listening on port ' + port + '...');
+    });
+}
+
