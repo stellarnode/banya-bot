@@ -274,6 +274,8 @@ console.log(new Date().toISOString(), "BANYA BOT PROUDLY STARTED...");
 TeaBot.startPolling();
 
 var port = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 8080; // first one added for OpenShift
-app.listen(port,  function () {
-	console.log('Node.js listening on port ' + port + '...');
+var ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'; // first one added for OpenShift
+
+app.listen(port, ip_address, function () {
+	console.log('Node.js listening on port ' + port + ' and ip address ' + ip_address + '...');
 });
