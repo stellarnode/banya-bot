@@ -4,7 +4,13 @@ var util = require("util");
 var mongoose = require('mongoose');
 var path = process.cwd();
 require('dotenv').load();
-mongoose.connect(process.env.MONGO_URI);
+
+if (process.env.MONGOLAB_URI) {
+    mongoose.connect(process.env.MONGOLAB_URI);
+} else {
+    mongoose.connect(process.env.MONGO_URI);
+}
+
 
 var BanyaUsers = require('./app/models/banyaUsers.js');
 var checkUser = require("./app/models/checkUser.js");
