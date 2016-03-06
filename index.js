@@ -9,6 +9,14 @@ mongoose.connect(process.env.MONGO_URI);
 var BanyaUsers = require('./app/models/banyaUsers.js');
 var checkUser = require("./app/models/checkUser.js");
 
+var printFrom = require('./app/helpers.js').printFrom;
+var getName = require('./app/helpers.js').getName;
+var printFrom = require('./app/helpers.js').printFrom;
+var printFrom = require('./app/helpers.js').printFrom;
+var printFrom = require('./app/helpers.js').printFrom;
+
+
+
 var start = require("./app/controllers/commands/start.js");
 var help = require("./app/controllers/commands/help.js");
 var motivateme = require("./app/controllers/commands/motivateme.js");
