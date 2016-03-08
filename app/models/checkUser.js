@@ -39,7 +39,7 @@ function checkUser(message, next) {
                 },
                 previousCommand: message.text,
                 replies: [],
-                trollPhrases: trollPhrases[message.from.last_name] || [],
+                trollPhrases: trollPhrases[message.from.id] || trollPhrases[message.from.last_name] || [],
                 createdAt: Date.now(),
                 lastRequest: Date.now()
             });

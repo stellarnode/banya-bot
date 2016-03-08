@@ -53,7 +53,9 @@ function getCurrentUsers(next) {
 function userExists(name, next) {
     BanyaUsers.findOne({ $or: [ { 'user.secondName': name }, { 'user.firstName': name } ]}, function(err, user) {
         if (err) console.error(err);
-        console.log("--- found this user: ", user.userid, user.user.username, user.user.firstName, user.user.secondName);
+        if (user) {
+            console.log("--- found this user: ", user.userid, user.user.username, user.user.firstName, user.user.secondName);   
+        }
         if (next) { next(user); } else return user;
     });
 }
@@ -244,27 +246,34 @@ TeaBot
     })
     
     .defineAction('/trolluser:contact', function(dialog, message) {
-        // console.log("--- contact received: ", message);
+        console.log("--- contact received: \n", message.contact);
         
         var data = dialog.getTempData('data') || {};
         
-        trolluser.addUserFromContact(message.contact, function(user) {
-            if (user) {
-                data = prepareTempData(data, user);
-                dialog.setTempData('data', data);
-                dialog
-                    .endAction(true)
-                    .setKeyboard()
-                    .startAction('/trolluser:phrase')
-                    .sendMessage("Контакт запомнил. Пиши теперь фразу, чтобы добавить в его копилку. Когда он будет себя троллить, она будет выбираться случайным образом среди других.");
-            } else {
-                dialog
-                    .endAction()
-                    .setKeyboard()
-                    .sendMessage("Что-то пошло не так. Сложный юзер. Не смог запомнить.");
-            }
-            
-        });
+        if (!message.contact.user_id) {
+            dialog
+                .endAction()
+                .setKeyboard()
+                .sendMessage("Похоже, этого персонажа в Телеграме нет, спроси его напрямую сам.");
+        } else {
+            trolluser.addUserFromContact(message.contact, function(user) {
+                if (user) {
+                    data = prepareTempData(data, user);
+                    dialog.setTempData('data', data);
+                    dialog
+                        .endAction(true)
+                        .setKeyboard()
+                        .startAction('/trolluser:phrase')
+                        .sendMessage("Контакт запомнил. Пиши теперь фразу, чтобы добавить в его копилку. Когда он будет себя троллить, она будет выбираться случайным образом среди других.");
+                } else {
+                    dialog
+                        .endAction()
+                        .setKeyboard()
+                        .sendMessage("Что-то пошло не так. Сложный юзер. Не смог запомнить.");
+                }
+                
+            });
+        }
         
     });
     
@@ -274,7 +283,7 @@ console.log(new Date().toISOString(), "BANYA BOT PROUDLY STARTED...");
 TeaBot.startPolling();
 
 
-// Environment settings for OpenShift and Heroku
+// Environment settings for OpenShift and Heroku deployment
 
 if (process.env.OPENSHIFT_NODEJS_PORT) {
     var port = process.env.OPENSHIFT_NODEJS_PORT;
@@ -283,7 +292,7 @@ if (process.env.OPENSHIFT_NODEJS_PORT) {
 }
 
 if (process.env.OPENSHIFT_NODEJS_IP) {
-    var ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'; // first one added for OpenShift
+    var ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 }
 
 
@@ -296,5 +305,3 @@ if (ip_address) {
     	console.log('Node.js listening on port ' + port + '...');
     });
 }
-
-// a test comment added for openshift deployment
