@@ -7,7 +7,7 @@ module.exports = function(message, next) {
     var startTime = Date.now();
     
     checkUser(message, function(user) {
-                    if (user.trollPhrases) {
+                    if (user.trollPhrases.length > 0) {
                         response = user.trollPhrases[Math.floor(Math.random() * user.trollPhrases.length)];
                     } else {
                         response = "Похоже, ты чист. Но все равно - иди в баню.";

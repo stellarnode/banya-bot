@@ -149,6 +149,7 @@ TeaBot
     })
     
     .defineCommand(function (dialog) {
+        var command = dialog.message.command;
         printFrom(dialog);
         dialog.sendMessage('Это я не понял. Отправь мне /help, что ли.');
     });
