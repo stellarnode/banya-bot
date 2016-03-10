@@ -117,7 +117,7 @@ TeaBot
         getCurrentUsers(function(users) {
             var keyboard = [];
             users.forEach((el) => {
-                if !(el.userid === 170522191) {
+                if (el.userid != 170522191) {
                     keyboard.push(new Array((el.user.secondName) ? el.user.firstName + " " + el.user.secondName : el.user.firstName));
                 }
             });
