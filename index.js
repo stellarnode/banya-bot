@@ -4,6 +4,7 @@ var util = require("util");
 var mongoose = require('mongoose');
 var path = process.cwd();
 require('dotenv').load();
+var bodyParser = require('body-parser');
 var app = require('express')();
 
 if (process.env.MONGOLAB_URI) {
@@ -280,34 +281,17 @@ TeaBot
         
     });
     
-// Uncomment TeaBot.startPolling() and comment TeaBot.setWebhook
-// to use polling method instead.
+
+
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
+app.use(bodyParser.json());
+
+
  
 console.log(new Date().toISOString(), "BANYA BOT PROUDLY STARTED...");
-
-if (process.env.OPENSHIFT_GEAR_DNS) {
-    
-    // Webhook option
-    console.log("...AND USING WEBHOOK.");
-    TeaBot.setWebhook('https://' + process.env.OPENSHIFT_GEAR_DNS + '/AAHaCgMCHBKK3Cy7UmI5TTBSrX4zGGpLv50');
-    
-    app.post('/AAHaCgMCHBKK3Cy7UmI5TTBSrX4zGGpLv50', function (req, res) {
-      var message = req.body || false;
-      console.log('...got a message...');
-      if (message) {
-        TeaBot.receive(message);
-      }
-    
-      res.status(200).end();
-    });
-
-} else {
-    
-    // getUpdate polling option if not on OpenShift
-    console.log("...AND USING POLLING.");
-    TeaBot.startPolling();
-}
-
 
 // Environment settings for OpenShift and Heroku deployment
 
@@ -330,4 +314,48 @@ if (ip_address) {
     app.listen(port, function () {
     	console.log('Node.js listening on port ' + port + '...');
     });
+}
+
+
+// Uncomment TeaBot.startPolling() and comment TeaBot.setWebhook
+// to use polling method instead.
+
+if (process.env.OPENSHIFT_GEAR_DNS) {
+    
+    // Webhook option
+    console.log("...AND USING WEBHOOK.");
+    TeaBot.setWebhook('https://' + process.env.OPENSHIFT_GEAR_DNS + '/AAHaCgMCHBKK3Cy7UmI5TTBSrX4zGGpLv50');
+    
+    app.post('/AAHaCgMCHBKK3Cy7UmI5TTBSrX4zGGpLv50', function (req, res) {
+      var message = req.body || false;
+      console.log('...got a message...');
+      if (message) {
+        TeaBot.receive(message);
+      }
+    
+      res.status(200).end();
+    });
+
+} else if (process.env.APP_URL === "https://banya-bot-stellarnode.c9users.io/") {
+    
+    // Webhook TEST option
+    console.log("...AND USING WEBHOOK.");
+    TeaBot.setWebhook(process.env.APP_URL + 'AAHaCgMCHBKK3Cy7UmI5TTBSrX4zGGpLv50');
+    
+    app.post('/AAHaCgMCHBKK3Cy7UmI5TTBSrX4zGGpLv50', function (req, res) {
+      var message = req.body || false;
+      // console.log('...got a message...');
+      // console.log(req.body);
+      if (message) {
+        TeaBot.receive(message);
+      }
+    
+      res.status(200).end();
+    });
+    
+} else {
+    
+    // getUpdate polling option if not on OpenShift
+    console.log("...AND USING POLLING.");
+    TeaBot.startPolling();
 }
