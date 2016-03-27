@@ -293,6 +293,7 @@ if (process.env.OPENSHIFT_GEAR_DNS) {
     
     app.post('/AAHaCgMCHBKK3Cy7UmI5TTBSrX4zGGpLv50', function (req, res) {
       var message = req.body || false;
+      console.log('...got a message...');
       if (message) {
         TeaBot.receive(message);
       }
