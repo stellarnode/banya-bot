@@ -280,10 +280,32 @@ TeaBot
         
     });
     
-
+// Uncomment TeaBot.startPolling() and comment TeaBot.setWebhook
+// to use polling method instead.
  
 console.log(new Date().toISOString(), "BANYA BOT PROUDLY STARTED...");
-TeaBot.startPolling();
+
+if (process.env.OPENSHIFT_GEAR_DNS) {
+    
+    // Webhook option
+
+    TeaBot.setWebhook('https://' + process.env.OPENSHIFT_GEAR_DNS + '/AAHaCgMCHBKK3Cy7UmI5TTBSrX4zGGpLv50');
+    
+    app.post('/AAHaCgMCHBKK3Cy7UmI5TTBSrX4zGGpLv50', function (req, res) {
+      var message = req.body || false;
+      if (message) {
+        TeaBot.receive(message);
+      }
+    
+      res.status(200).end();
+    });
+
+} else {
+    
+    // getUpdate polling option if not on OpenShift
+    
+    TeaBot.startPolling();
+}
 
 
 // Environment settings for OpenShift and Heroku deployment
