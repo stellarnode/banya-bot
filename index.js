@@ -288,7 +288,7 @@ console.log(new Date().toISOString(), "BANYA BOT PROUDLY STARTED...");
 if (process.env.OPENSHIFT_GEAR_DNS) {
     
     // Webhook option
-
+    console.log("...AND USING WEBHOOK.");
     TeaBot.setWebhook('https://' + process.env.OPENSHIFT_GEAR_DNS + '/AAHaCgMCHBKK3Cy7UmI5TTBSrX4zGGpLv50');
     
     app.post('/AAHaCgMCHBKK3Cy7UmI5TTBSrX4zGGpLv50', function (req, res) {
@@ -303,7 +303,7 @@ if (process.env.OPENSHIFT_GEAR_DNS) {
 } else {
     
     // getUpdate polling option if not on OpenShift
-    
+    console.log("...AND USING POLLING.");
     TeaBot.startPolling();
 }
 
