@@ -44,7 +44,7 @@ function addTrollPhrase(data, next) {
             return;
         }
         
-        user.trollPhrases.push(data.phrase);
+        user.trollPhrases.push(data.phrase.replace(/^\@banya\_bot\s/, ""));
         user.save(function(err) {
             if (err) console.error(err);
             console.log("--- updated user ", user.user.firstName, user.user.secondName, " with troll phrase: ", data.phrase);
