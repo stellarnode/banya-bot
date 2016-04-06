@@ -19,7 +19,7 @@ function reportBug(message, description, next) {
     //*
     var newBug = new BugReport({
         id: newId,
-        reportedBug: description.replace(/^\@banya\_bot\s/, ""),
+        reportedBug: description.replace(/\s*\@banya\_bot\s*/, ""),
         reportedBy: {
             userid: message.from.id,
             firstName: message.from.first_name,
