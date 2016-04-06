@@ -19,7 +19,7 @@ function featureRequest(message, description, next) {
     //*
     var newFeature = new FeatureRequest({
         id: newId,
-        requestedFeature: description,
+        requestedFeature: description.replace(/^\@banya\_bot\s/, ""),
         proposedBy: {
             userid: message.from.id,
             firstName: message.from.first_name,
