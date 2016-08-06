@@ -24,6 +24,7 @@ var trollme = require("./app/controllers/commands/trollme.js");
 var trolluser = require("./app/controllers/commands/trolluser.js");
 var requestfeature = require("./app/controllers/commands/requestfeature.js");
 var reportbug = require("./app/controllers/commands/reportbug.js");
+var countdown = require("./app/controllers/commands/countdown.js");
 
 var TeaBot = require("teabot")(process.env.BOT_TOKEN, process.env.BOT_NAME);
 TeaBot.use('analytics', require('teabot-botan')(process.env.BOTAN_TOKEN));
@@ -102,6 +103,13 @@ TeaBot
         dialog
           .setKeyboard()
           .sendMessage(motivateme());
+    })
+    
+    .defineCommand('/countdown', function (dialog) {
+        printFrom(dialog);
+        dialog
+          .setKeyboard()
+          .sendMessage(countdown());
     })
     
     .defineCommand('/trollme', function (dialog) {
