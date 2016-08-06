@@ -28,13 +28,14 @@ module.exports = function() {
     
     var tMinusDescriptors = ["дней", "часов", "минут", "секунд"];
     
-    tMinusDescriptors[0] = (tMinus[0] >= 1 && tMinus[0] <= 4) ? "дня" : "дней";
-    tMinusDescriptors[1] = (tMinus[1] % 10 === 1) ? "час" : "часов";
-    tMinusDescriptors[1] = (tMinus[1] % 10 > 1 && tMinus[1] % 10 <= 4 && tMinus[1] % 10 != 1) ? "часа" : "часов";
-    tMinusDescriptors[2] = (tMinus[2] % 10 === 1) ? "минута" : "минут";
-    tMinusDescriptors[2] = (tMinus[2] % 10 > 1 && tMinus[2] % 10 <= 4 && tMinus[2] % 10 != 1) ? "минуты" : "минут";
-    tMinusDescriptors[3] = (tMinus[3] % 10 === 1) ? "секунда" : "секунд";
-    tMinusDescriptors[3] = (tMinus[3] % 10 > 1 && tMinus[3] % 10 <= 4 && tMinus[3] % 10 != 1) ? "секунды" : "секунд";
+    tMinusDescriptors[0] = (tMinus[0] % 10 == 1) ? "день" : "дней";
+    tMinusDescriptors[0] = (tMinus[0] > 1 && tMinus[0] <= 4 && tMinus[0] % 10 != 1) ? "дня" : tMinusDescriptors[0];
+    tMinusDescriptors[1] = (tMinus[1] % 10 == 1) ? "час" : "часов";
+    tMinusDescriptors[1] = (tMinus[1] % 10 > 1 && tMinus[1] % 10 <= 4 && tMinus[1] % 10 != 1) ? "часа" : tMinusDescriptors[1];
+    tMinusDescriptors[2] = (tMinus[2] % 10 == 1) ? "минута" : "минут";
+    tMinusDescriptors[2] = (tMinus[2] % 10 > 1 && tMinus[2] % 10 <= 4 && tMinus[2] % 10 != 1) ? "минуты" : tMinusDescriptors[2];
+    tMinusDescriptors[3] = (tMinus[3] % 10 == 1) ? "секунда" : "секунд";
+    tMinusDescriptors[3] = (tMinus[3] % 10 > 1 && tMinus[3] % 10 <= 4 && tMinus[3] % 10 != 1) ? "секунды" : tMinusDescriptors[3];
     
     
     // console.log("T minus " + tMinus[0] + ":" + tMinus[1] + ":" + tMinus[2] + ":" + tMinus[3] + " and counting");
