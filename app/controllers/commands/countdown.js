@@ -8,7 +8,7 @@ module.exports = function() {
     next = new Date(next).setHours(19); // + offset / 60
     // console.log(new Date(next).toISOString());
     
-    var diff = next - Date.now() - offset * 60 * 1000;
+    var diff = next - Date.now(); // - offset * 60 * 1000
     
     var days = (1000 * 60 * 60 * 24);
     var hours = (60 * 60 * 1000);
