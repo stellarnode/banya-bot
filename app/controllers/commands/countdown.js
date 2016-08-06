@@ -5,7 +5,7 @@ module.exports = function() {
     var next = new Date(now).setSeconds(0);
     next = new Date(next).setDate(now.getDate() + 7 - now.getDay() + 3);
     next = new Date(next).setMinutes(0);
-    next = new Date(next).setHours(19); // + offset / 60
+    next = new Date(next).setHours(19 + offset / 60);
     // console.log(new Date(next).toISOString());
     
     var diff = next - Date.now() + offset * 60 * 1000;
