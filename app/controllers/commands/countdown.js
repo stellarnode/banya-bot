@@ -5,10 +5,10 @@ module.exports = function() {
     var next = new Date(now).setSeconds(0);
     next = new Date(next).setDate(now.getDate() + 7 - now.getDay() + 3);
     next = new Date(next).setMinutes(0);
-    next = new Date(next).setHours(19 + offset / 60);
+    next = new Date(next).setHours(19); // + offset / 60
     // console.log(new Date(next).toISOString());
     
-    var diff = next - Date.now() + offset * 60 * 1000;
+    var diff = next - Date.now() - offset * 60 * 1000;
     
     var days = (1000 * 60 * 60 * 24);
     var hours = (60 * 60 * 1000);
@@ -30,14 +30,14 @@ module.exports = function() {
     
     tMinusDescriptors[0] = (tMinus[0] >= 1 && tMinus[0] <= 4) ? "дня" : "дней";
     tMinusDescriptors[1] = (tMinus[1] % 10 === 1) ? "час" : "часов";
-    tMinusDescriptors[1] = (tMinus[1] % 10 > 1 && tMinus[1] % 10 <= 4) ? "часа" : "часов";
+    tMinusDescriptors[1] = (tMinus[1] % 10 > 1 && tMinus[1] % 10 <= 4 && tMinus[1] % 10 != 1) ? "часа" : "часов";
     tMinusDescriptors[2] = (tMinus[2] % 10 === 1) ? "минута" : "минут";
-    tMinusDescriptors[2] = (tMinus[2] % 10 > 1 && tMinus[2] % 10 <= 4) ? "минуты" : "минут";
+    tMinusDescriptors[2] = (tMinus[2] % 10 > 1 && tMinus[2] % 10 <= 4 && tMinus[2] % 10 != 1) ? "минуты" : "минут";
     tMinusDescriptors[3] = (tMinus[3] % 10 === 1) ? "секунда" : "секунд";
-    tMinusDescriptors[3] = (tMinus[3] % 10 > 1 && tMinus[3] % 10 <= 4) ? "секунды" : "секунд";
+    tMinusDescriptors[3] = (tMinus[3] % 10 > 1 && tMinus[3] % 10 <= 4 && tMinus[3] % 10 != 1) ? "секунды" : "секунд";
     
     
-    console.log("T minus " + tMinus[0] + ":" + tMinus[1] + ":" + tMinus[2] + ":" + tMinus[3] + " and counting");
+    // console.log("T minus " + tMinus[0] + ":" + tMinus[1] + ":" + tMinus[2] + ":" + tMinus[3] + " and counting");
     return ("До бани осталось " +
                 tMinus[0] + " " + tMinusDescriptors[0] + " " +
                 tMinus[1] + " " + tMinusDescriptors[1] + " " +
