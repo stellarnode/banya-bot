@@ -92,9 +92,9 @@ module.exports = function() {
   var diff = next - new Date(now); // UTC time is used; change if daylight saving time is introduced
   
   var daysLeft = Math.floor(diff / days);
-  var hoursLeft = Math.floor(((diff - daysLeft * days) % days) / hours);
-  var minutesLeft = Math.floor(((diff - daysLeft * days - hoursLeft * hours) % hours) / minutes);
-  var secondsLeft = Math.floor(((diff - daysLeft * days - hoursLeft * hours - minutesLeft * minutes) % minutes) / seconds);
+  var hoursLeft = Math.floor((diff % days) / hours);
+  var minutesLeft = Math.floor((diff % hours) / minutes);
+  var secondsLeft = Math.floor((diff % minutes) / seconds);
   
   var tMinus = [daysLeft, hoursLeft, minutesLeft, secondsLeft];
   var tMinusDescriptors = tMinus.map(function(el, idx) {
