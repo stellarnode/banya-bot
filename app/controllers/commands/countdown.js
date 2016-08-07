@@ -93,6 +93,7 @@ module.exports = function() {
   next = new Date(next).setMinutes(0);
   next = new Date(next).setHours(16); // UTC time is used; need to change if daylight saving time is introduced 
   console.log("-- next data and time in UTC: " + new Date(next).toISOString());
+  console.log("-- next data and time in server time zone: " + new Date(next).toString());
   
   var diff = next - new Date(now); // UTC time is used; change if daylight saving time is introduced
   
