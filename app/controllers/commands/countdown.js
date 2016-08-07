@@ -38,12 +38,12 @@ module.exports = function() {
   // Everything here is based on UTC time; need to change if daylight saving time is introduced again in Russia 
   
   var now = new Date();
+  now = now.setTime(now.getTime()); // convert to UTC time
   var offset = now.getTimezoneOffset();
   // now = new Date(2016, 7, 9, 23, 32, 41); // testing data
   console.log("-- current data and time in UTC: " + new Date(now).toISOString());
   console.log("-- current data and time in server time zone: " + new Date(now).toString());
   console.log("-- timezone offset UTC: " + offset);
-  now = new Date(now + offset * 60 * 60 * 1000);
   
   var days = (1000 * 60 * 60 * 24);
   var hours = (60 * 60 * 1000);
@@ -54,7 +54,7 @@ module.exports = function() {
     var start = new Date(now).setHours(16);
     start = new Date(start).setMinutes(0);
     start = new Date(start).setSeconds(0);
-    var diff = Math.abs(start + offset * 60 * 60 * 1000 - new Date(now));
+    var diff = Math.abs(start - new Date(now));
     var hoursRunning = Math.floor(diff / hours);
     var minutesRunning = Math.floor(((diff - hoursRunning * hours) % hours) / minutes);
     var secondsRunning = Math.floor(((diff - hoursRunning * hours - minutesRunning * minutes) % minutes) / seconds);
@@ -95,7 +95,7 @@ module.exports = function() {
   console.log("-- next data and time in UTC: " + new Date(next).toISOString());
   console.log("-- next data and time in server time zone: " + new Date(next).toString());
   
-  var diff = next + offset * 60 * 60 * 1000 - new Date(now); // UTC time is used; change if daylight saving time is introduced
+  var diff = next - new Date(now); // UTC time is used; change if daylight saving time is introduced
   
   var daysLeft = Math.floor(diff / days);
   var hoursLeft = Math.floor((diff % days) / hours);
