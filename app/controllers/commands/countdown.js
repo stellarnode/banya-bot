@@ -38,9 +38,12 @@ module.exports = function() {
   // Everything here is based on UTC time; need to change if daylight saving time is introduced again in Russia 
   
   var now = new Date();
+  var offset = now.getTimezoneOffset();
   // now = new Date(2016, 7, 9, 23, 32, 41); // testing data
   console.log("-- current data and time in UTC: " + new Date(now).toISOString());
-  console.log("-- timezone offset UTC: " + new Date(now).getTimezoneOffset());
+  console.log("-- current data and time in server time zone: " + new Date(now).toString());
+  console.log("-- timezone offset UTC: " + offset);
+  now = new Date(now + offset * 60 * 60 * 1000);
   
   var days = (1000 * 60 * 60 * 24);
   var hours = (60 * 60 * 1000);
