@@ -40,6 +40,7 @@ module.exports = function() {
   var now = new Date();
   // now = new Date(2016, 7, 9, 23, 32, 41); // testing data
   console.log("-- current data and time in UTC: " + new Date(now).toISOString());
+  console.log("-- timezone offset UTC: " + new Date(now).getTimezoneOffset());
   
   var days = (1000 * 60 * 60 * 24);
   var hours = (60 * 60 * 1000);
