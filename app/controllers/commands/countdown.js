@@ -52,8 +52,8 @@ module.exports = function() {
   var minutes = (60 * 1000);
   var seconds = 1000;
   
-  if (now.getUTCDay() == 3 && now.getUTCHours() >= 16 && now.getUTCHours() <= 19) {
-    var start = new Date(now).setUTCHours(16);
+  if (now.getDay() == 3 && now.getHours() >= 16 && now.getHours() <= 19) {
+    var start = new Date(now).setHours(16);
     start = new Date(start).setMinutes(0);
     start = new Date(start).setSeconds(0);
     var diff = Math.abs(start - new Date(now));
@@ -87,13 +87,13 @@ module.exports = function() {
 
   var next = new Date(now);
   
-  if (next.getUTCDay() != 3 || (next.getUTCDay() == 3 && next.getUTCHours() >= 19)) {
+  if (next.getDay() != 3 || (next.getDay() == 3 && next.getHours() >= 19)) {
     next = next.next().wednesday();
   }
 
   next = new Date(next).setSeconds(0);
   next = new Date(next).setMinutes(0);
-  next = new Date(next).setUTCHours(16); // UTC time is used; need to change if daylight saving time is introduced 
+  next = new Date(next).setHours(16); // UTC time is used; need to change if daylight saving time is introduced 
   console.log("-- next data and time in UTC: " + new Date(next).toISOString());
   console.log("-- next data and time in server time zone: " + new Date(next).toString());
   
