@@ -1,5 +1,12 @@
 require('datejs');
 
+function incrementDate(currentDay) {
+	if (currentDay >= 0 && currentDay < 3) return 3 - currentDay;
+	if (currentDay == 3) return 3;
+	return 7 - currentDay + 3;
+}
+
+
 function describe(tMinus, descriptor) {
   
   var options = [];
@@ -87,7 +94,7 @@ module.exports = function() {
 
   var next = new Date(now);
   
-  if (next.getDay() != 3 || (next.getDay() == 3 && next.getHours() >= 19)) {
+  if (now.getDay() != 3 || (now.getDay() == 3 && now.getHours() >= 19)) {
     next = next.next().wednesday();
   }
 
