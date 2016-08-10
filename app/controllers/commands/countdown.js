@@ -46,7 +46,7 @@ module.exports = function() {
   
   // convert to UTC time
   var now_loc = new Date(); 
-  var now = new Date(Date.UTC(now_loc.getUTCFullYear(), now_loc.getUTCMonth(), now_loc.getUTCDate(), now_loc.getUTCHours(), now_loc.getUTCMinutes(), now_loc.getUTCSeconds()));
+  var now = new Date(now_loc.getUTCFullYear(), now_loc.getUTCMonth(), now_loc.getUTCDate(), now_loc.getUTCHours(), now_loc.getUTCMinutes(), now_loc.getUTCSeconds());
   
   var offset = new Date(now).getTimezoneOffset();
   // now = new Date(2016, 7, 9, 23, 32, 41); // testing data
