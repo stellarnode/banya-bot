@@ -46,12 +46,12 @@ module.exports = function() {
   
   // convert to UTC time
   var now_loc = new Date(); 
-  var now = new Date(now_loc.getUTCFullYear(), now_loc.getUTCMonth(), now_loc.getUTCDate(), now_loc.getUTCHours(), now_loc.getUTCMinutes(), now_loc.getUTCSeconds());
+  var now = new Date(Date.UTC(now_loc.getUTCFullYear(), now_loc.getUTCMonth(), now_loc.getUTCDate(), now_loc.getUTCHours(), now_loc.getUTCMinutes(), now_loc.getUTCSeconds()));
   
   var offset = new Date(now).getTimezoneOffset();
   // now = new Date(2016, 7, 9, 23, 32, 41); // testing data
-  console.log("-- current data and time in UTC: " + new Date(now).toISOString());
-  console.log("-- current data and time in server time zone: " + new Date(now).toString());
+  console.log("-- current data and time converted to UTC: " + new Date(now).toISOString());
+  console.log("-- current data and time object in current time zone: " + new Date(now).toString());
   console.log("-- timezone offset UTC: " + offset);
   
   var days = (1000 * 60 * 60 * 24);
@@ -59,7 +59,7 @@ module.exports = function() {
   var minutes = (60 * 1000);
   var seconds = 1000;
   
-  if (now.getDay() == 3 && now.getHours() >= 16 && now.getHours() <= 19) {
+  if (now.getDay() == 3 && (now.getHours() >= 16 && now.getHours() <= 18)) {
     var start = new Date(now).setHours(16);
     start = new Date(start).setMinutes(0);
     start = new Date(start).setSeconds(0);
