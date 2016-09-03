@@ -26,7 +26,7 @@ var requestfeature = require("./app/controllers/commands/requestfeature.js");
 var reportbug = require("./app/controllers/commands/reportbug.js");
 var countdown = require("./app/controllers/commands/countdown.js");
 
-var TeaBot = require("teabot")(process.env.BOT_TOKEN, process.env.BOT_NAME);
+var TeaBot = require("teabot")(process.env.BOT_TOKEN, process.env.BOT_NAME.toLowerCase());
 TeaBot.use('analytics', require('teabot-botan')(process.env.BOTAN_TOKEN));
 
 
@@ -112,6 +112,10 @@ TeaBot
           .sendMessage(countdown());
     })
     
+    .defineCommand('/setday', function(dialog) {
+        console.log(dialog.message);
+    })
+    
     .defineCommand('/trollme', function (dialog) {
         printFrom(dialog);
         dialog.setKeyboard();
@@ -160,6 +164,7 @@ TeaBot
     })
     
     .defineCommand(function (dialog) {
+        console.log(dialog.message);
         var command = dialog.message.command;
         printFrom(dialog);
         dialog.sendMessage('Это я не понял. Отправь мне /help, что ли.');
