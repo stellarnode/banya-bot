@@ -41,11 +41,6 @@ function setday(nextBanyaDay, chatId, userId, setForDate) {
         if (err) console.error(err);
         if (nextBanyaDay[0]) {
             console.log("-- currently next Banya Day is " + nextBanyaDay[0].nextDay);
-            nextBanyaDay[0].nextDay = nextDay;
-            
-            if (setForDate) {
-                nextBanyaDay[0].setFor = setForDate;
-            }
             
             if (nextBanyaDay[0].setFor < Date.now()) {
                 nextBanyaDay[0].remove(function(err) {
@@ -53,6 +48,12 @@ function setday(nextBanyaDay, chatId, userId, setForDate) {
                     console.log("-- removed entry for the next Banya Day to be 3 (Sreda).");
                 });
             } else {
+                nextBanyaDay[0].nextDay = nextDay;
+                
+                if (setForDate) {
+                    nextBanyaDay[0].setFor = setForDate;
+                }
+                
                 nextBanyaDay[0].save(function(err) {
                     if (err) console.error(err);
                     console.log("-- updating entry to " + nextDay);
