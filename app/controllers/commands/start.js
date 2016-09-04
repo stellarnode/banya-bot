@@ -4,6 +4,7 @@ module.exports = function(name, next) {
                         + "\/start - начать диалог \n"
                         + "\/motivateme - получить мотивацию \n"
                         + "\/countdown - сориентировать по времени \n"
+                        + "\/setday - назначить день бани \n"
                         + "\/trollme - потроллить себя за несоблюдение традиции \n"
                         + "\/trolluser - потроллить другого\n"
                         + "\/requestfeature - запросить фичу\n"
