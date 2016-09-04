@@ -25,6 +25,7 @@ var trolluser = require("./app/controllers/commands/trolluser.js");
 var requestfeature = require("./app/controllers/commands/requestfeature.js");
 var reportbug = require("./app/controllers/commands/reportbug.js");
 var countdown = require("./app/controllers/commands/countdown.js");
+var setday = require("./app/controllers/commands/setday.js");
 
 var TeaBot = require("teabot")(process.env.BOT_TOKEN, process.env.BOT_NAME.toLowerCase());
 TeaBot.use('analytics', require('teabot-botan')(process.env.BOTAN_TOKEN));
@@ -107,13 +108,21 @@ TeaBot
     
     .defineCommand('/countdown', function (dialog) {
         printFrom(dialog);
-        dialog
-          .setKeyboard()
-          .sendMessage(countdown());
+        countdown(dialog.chatId, function(message) {
+            console.log(message);
+            dialog
+              .setKeyboard()
+              .sendMessage(message);
+        });
     })
     
     .defineCommand('/setday', function(dialog) {
-        console.log(dialog.message);
+        printFrom(dialog);
+        var keyboard = [["Понедельник", "Вторник"], ["Среда", "Четверг"], ["Пятница", "Суббота"], ["Воскресенье"]];
+        dialog.startAction('/setday');
+        dialog
+            .setKeyboard(keyboard, true, true)
+            .sendMessage("На какой день договорились про следующую баню?");
     })
     
     .defineCommand('/trollme', function (dialog) {
@@ -164,7 +173,6 @@ TeaBot
     })
     
     .defineCommand(function (dialog) {
-        console.log(dialog.message);
         var command = dialog.message.command;
         printFrom(dialog);
         dialog.sendMessage('Это я не понял. Отправь мне /help, что ли.');
@@ -188,6 +196,15 @@ TeaBot
             dialog.endAction();
             dialog.sendMessage("Сохранил твое сообщение. Легкого пара.");
         });
+    })
+    
+    .defineAction('/setday', function(dialog, message) {
+        var nextBanyaDay = message.getArgument();
+        setday(nextBanyaDay, dialog.chatId, dialog.userId);
+        dialog
+            .endAction(true)
+            .setKeyboard()
+            .sendMessage('Раз так договорились, хорошо.');
     })
     
     .defineAction('/trolluser', function(dialog, message) {
