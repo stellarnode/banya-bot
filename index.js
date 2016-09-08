@@ -63,7 +63,8 @@ function userExists(name, next) {
     });
 }
 
-function prepareTempData(data, user) {
+function prepareTempData(tempData, user) {
+    var data = {};
     data.userid = user.userid;
     data.user = {
         firstName: user.user.firstName,
@@ -154,12 +155,12 @@ TeaBot
     
     .defineCommand('/requestfeature', function (dialog) {
         printFrom(dialog);
-        dialog.startAction('/requestfeature').sendMessage("Опиши предлагаемую фичу. Только коротко.");
+        dialog.startAction('/requestfeature').sendMessage("Опиши предлагаемую фичу. Только коротко. " + "Начинай ответ с '/ ', чтобы я понял.");
     })
     
     .defineCommand('/reportbug', function (dialog) {
         printFrom(dialog);
-        dialog.startAction('/reportbug').sendMessage("Опиши найденную ошибку. Только коротко.");
+        dialog.startAction('/reportbug').sendMessage("Опиши найденную ошибку. Только коротко. " + "Начинай ответ с '/ ', чтобы я понял.");
     })
     
     .defineCommand('/cancel', function (dialog) {
@@ -229,7 +230,8 @@ TeaBot
                         .endAction(true)
                         .setKeyboard()
                         .startAction('/trolluser:phrase')
-                        .sendMessage("Пиши фразу, чтобы добавить в его копилку. Когда он будет себя троллить, она будет выбираться случайным образом среди других.");
+                        .sendMessage("Пиши фразу, чтобы добавить в его копилку. Когда он будет себя троллить, она будет выбираться случайным образом среди других. "
+                            + "Начинай ответ с '/ ', чтобы я понял.");
 
                 } else {
                     dialog
@@ -253,7 +255,8 @@ TeaBot
                     .endAction(true)
                     .setKeyboard()
                     .startAction('/trolluser:phrase')
-                    .sendMessage("Пиши фразу, чтобы добавить в его копилку. Когда он будет себя троллить, она будет выбираться случайным образом среди других.");
+                    .sendMessage("Пиши фразу, чтобы добавить в его копилку. Когда он будет себя троллить, она будет выбираться случайным образом среди других. "
+                        + "Начинай ответ с '/ ', чтобы я понял.");
             } else {
                 dialog
                     .endAction(true)
@@ -298,7 +301,9 @@ TeaBot
                         .endAction(true)
                         .setKeyboard()
                         .startAction('/trolluser:phrase')
-                        .sendMessage("Контакт запомнил. Пиши теперь фразу, чтобы добавить в его копилку. Когда он будет себя троллить, она будет выбираться случайным образом среди других.");
+                        .sendMessage("Контакт запомнил. Пиши теперь фразу, чтобы добавить в его копилку. "
+                            + "Когда он будет себя троллить, она будет выбираться случайным образом среди других. "
+                            + "Начинай ответ с '/ ', чтобы я понял.");
                 } else {
                     dialog
                         .endAction()
