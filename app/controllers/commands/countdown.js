@@ -4,19 +4,11 @@ require('datejs');
 // var Promise = require('bluebird');
 
 var NextBanya = require('../../models/nextBanya.js');
-// var getNextBanyaDay = Promise.promisifyAll(require('../../models/getNextBanyaDay.js'));
 var getNextBanyaDay = require('../../models/getNextBanyaDay.js');
 var setday = require("./setday.js");
 
-// function incrementDate(currentDay) {
-// 	if (currentDay >= 0 && currentDay < 3) return 3 - currentDay;
-// 	if (currentDay == 3) return 3;
-// 	return 7 - currentDay + 3;
-// }
-
 
 function describe(tMinus, descriptor) {
-  
   var options = [];
   
   switch(descriptor) {
@@ -34,7 +26,6 @@ function describe(tMinus, descriptor) {
       break;
   }    
   
-  
   if (tMinus >= 11 && tMinus <= 20) {
     return options[2];
   } else if (tMinus % 10 == 1) {
@@ -45,6 +36,54 @@ function describe(tMinus, descriptor) {
     return options[2];
   }
   
+}
+
+
+function getDateForNextBanya(now, nextBanyaDay) {
+  var next = new Date(now);
+  
+  if (now.getDay() != nextBanyaDay || (now.getDay() == nextBanyaDay && now.getHours() >= 19)) {
+    
+    if (now.getDay() == nextBanyaDay && now.getHours() >= 19) {
+      nextBanyaDay = 3;
+    }
+    
+    if (nextBanyaDay == 3 || nextBanyaDay == undefined) {
+      nextBanyaDay = 3;
+      next = next.next().wednesday();
+    }
+    
+    if (nextBanyaDay != 3) {
+      switch (nextBanyaDay) {
+        case 0:
+          next = next.next().sunday();
+          break;
+        case 1:
+          next = next.next().monday();
+          break;
+        case 2:
+          next = next.next().tuesday();
+          break;
+        case 4:
+          next = next.next().thursday();
+          break;
+        case 5:
+          next = next.next().friday();
+          break;
+        case 6:
+          next = next.next().saturday();
+          break;
+        default:
+          next = next.next().wednesday();
+      }
+    }
+  }
+
+  next = new Date(next).setSeconds(0);
+  next = new Date(next).setMinutes(0);
+  next = new Date(next).setHours(16); // UTC time is used; need to change if daylight saving time is introduced 
+  
+  return [next, nextBanyaDay];
 }
 
 
@@ -107,48 +146,9 @@ function tellTMinus(nextBanyaDay, chatId, done) {
               running[2] + " " + descriptors[2] + ".");
   }
 
-  var next = new Date(now);
-  
-  if (now.getDay() != nextBanyaDay || (now.getDay() == nextBanyaDay && now.getHours() >= 19)) {
-    
-    if (now.getDay() == nextBanyaDay && now.getHours() >= 19) {
-      nextBanyaDay = 3;
-    }
-    
-    if (nextBanyaDay == 3 || nextBanyaDay == undefined) {
-      nextBanyaDay = 3;
-      next = next.next().wednesday();
-    }
-    
-    if (nextBanyaDay != 3) {
-      switch (nextBanyaDay) {
-        case 0:
-          next = next.next().sunday();
-          break;
-        case 1:
-          next = next.next().monday();
-          break;
-        case 2:
-          next = next.next().tuesday();
-          break;
-        case 4:
-          next = next.next().thursday();
-          break;
-        case 5:
-          next = next.next().friday();
-          break;
-        case 6:
-          next = next.next().saturday();
-          break;
-        default:
-          next = next.next().wednesday();
-      }
-    }
-  }
-
-  next = new Date(next).setSeconds(0);
-  next = new Date(next).setMinutes(0);
-  next = new Date(next).setHours(16); // UTC time is used; need to change if daylight saving time is introduced 
+  var arrayOfNextDateAndDayNumber = getDateForNextBanya(now, nextBanyaDay);
+  var next = arrayOfNextDateAndDayNumber[0];
+  nextBanyaDay = arrayOfNextDateAndDayNumber[1];
   
   
   // Update DB entry with setFor date. Currently userId will be changed to chatId.
@@ -196,19 +196,5 @@ module.exports = function(chatId, next) {
   getNextBanyaDay(chatId, tellTMinus, function(message) {
     next(message);
   });
-  
-  
-  // var countdown = asyncing(function(chatId) {
-  //   var nextBanyaDay = awaiting(getNextBanyaDay(chatId));
-  //   return nextBanyaDay;
-  // });
-  
-  // countdown(chatId, next)
-  //   .then(function (nextBanyaDay) {
-  //     console.log(nextBanyaDay);
-  //     next(tellTMinus(nextBanyaDay));
-      
-  //   })
-  //   .catch(function (err) { console.error(err); });
   
 };

@@ -336,8 +336,8 @@ if (process.env.OPENSHIFT_NODEJS_PORT) {
     var port = process.env.PORT || 8080;
 }
 
-if (process.env.OPENSHIFT_NODEJS_IP) {
-    var ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+if (process.env.OPENSHIFT_NODEJS_IP || process.env.IP) {
+    var ip_address = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
 }
 
 
