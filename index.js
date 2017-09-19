@@ -358,7 +358,7 @@ if (ip_address) {
 if (process.env.OPENSHIFT_GEAR_DNS) {
     
     // Webhook option
-    console.log("...AND USING WEBHOOK.");
+    console.log("...AND USING WEBHOOK ON OPENSHIFT.");
     TeaBot.setWebhook('https://' + process.env.OPENSHIFT_GEAR_DNS + '/AAHaCgMCHBKK3Cy7UmI5TTBSrX4zGGpLv50');
     
     app.post('/AAHaCgMCHBKK3Cy7UmI5TTBSrX4zGGpLv50', function (req, res) {
@@ -374,7 +374,7 @@ if (process.env.OPENSHIFT_GEAR_DNS) {
 } else if (process.env.APP_URL === "https://banya-bot-stellarnode.c9users.io/") {
     
     // Webhook TEST option
-    console.log("...AND USING WEBHOOK.");
+    console.log("...AND USING WEBHOOK ON C9.io.");
     TeaBot.setWebhook(process.env.APP_URL + 'AAHaCgMCHBKK3Cy7UmI5TTBSrX4zGGpLv50');
     
     app.post('/AAHaCgMCHBKK3Cy7UmI5TTBSrX4zGGpLv50', function (req, res) {

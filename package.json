@@ -33,7 +33,7 @@
     "express": "^4.13.4",
     "forever": "^0.15.1",
     "mongodb": "^2.1.7",
-    "mongoose": "^4.1.0",
+    "mongoose": "^3.5.0",
     "teabot": "^2.0.0",
     "teabot-botan": "^1.0.1"
   }
