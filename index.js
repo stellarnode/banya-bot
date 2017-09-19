@@ -340,10 +340,13 @@ if (process.env.OPENSHIFT_NODEJS_IP || process.env.IP) {
     var ip_address = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
 }
 
-
-if (ip_address) {
+if (ip_address && !process.env.APP_URL) {
     app.listen(port, ip_address, function () {
     	console.log('Node.js listening on port ' + port + ' and ip address ' + ip_address + '...');
+    });
+} else if (process.env.APP_URL === "https://banya-bot-stellarnode.c9users.io/") {
+    app.listen(port, function () {
+    	console.log('Node.js listening on port ' + port + '...');
     });
 } else {
     app.listen(port, function () {
@@ -358,7 +361,7 @@ if (ip_address) {
 if (process.env.OPENSHIFT_GEAR_DNS) {
     
     // Webhook option
-    console.log("...AND USING WEBHOOK ON OPENSHIFT.");
+    console.log("...USING WEBHOOK ON OPENSHIFT.");
     TeaBot.setWebhook('https://' + process.env.OPENSHIFT_GEAR_DNS + '/AAHaCgMCHBKK3Cy7UmI5TTBSrX4zGGpLv50');
     
     app.post('/AAHaCgMCHBKK3Cy7UmI5TTBSrX4zGGpLv50', function (req, res) {
@@ -374,12 +377,12 @@ if (process.env.OPENSHIFT_GEAR_DNS) {
 } else if (process.env.APP_URL === "https://banya-bot-stellarnode.c9users.io/") {
     
     // Webhook TEST option
-    console.log("...AND USING WEBHOOK ON C9.io.");
+    console.log("...USING WEBHOOK ON C9.io.");
     TeaBot.setWebhook(process.env.APP_URL + 'AAHaCgMCHBKK3Cy7UmI5TTBSrX4zGGpLv50');
     
     app.post('/AAHaCgMCHBKK3Cy7UmI5TTBSrX4zGGpLv50', function (req, res) {
       var message = req.body || false;
-      // console.log('...got a message...');
+       console.log('...got a message...');
       // console.log(req.body);
       if (message) {
         TeaBot.receive(message);
@@ -391,6 +394,6 @@ if (process.env.OPENSHIFT_GEAR_DNS) {
 } else {
     
     // getUpdate polling option if not on OpenShift
-    console.log("...AND USING POLLING.");
+    console.log("...USING POLLING.");
     TeaBot.startPolling();
 }
