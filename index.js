@@ -8,9 +8,13 @@ var bodyParser = require('body-parser');
 var app = require('express')();
 
 if (process.env.MONGOLAB_URI) {
-    mongoose.connect(process.env.MONGOLAB_URI);
+    mongoose.connect(process.env.MONGOLAB_URI, {
+        useMongoClient: true
+    });
 } else {
-    mongoose.connect(process.env.MONGO_URI);
+    mongoose.connect(process.env.MONGO_URI, {
+        useMongoClient: true
+    });
 }
 
 
