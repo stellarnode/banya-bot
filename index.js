@@ -377,6 +377,11 @@ if (process.env.OPENSHIFT_GEAR_DNS) {
     
       res.status(200).end();
     });
+    
+    app.get('/', function(req, res) {
+        console.log('...received a GET request...');
+        res.send("This is just a Telegram bot. It is meant to be used through a webhook.");
+    });
 
 } else if (process.env.APP_URL === "https://banya-bot-stellarnode.c9users.io/") {
     
