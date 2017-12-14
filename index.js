@@ -382,6 +382,18 @@ if (process.env.OPENSHIFT_GEAR_DNS) {
         console.log('...received a GET request...');
         res.send("This is just a Telegram bot. It is meant to be used through a webhook.");
     });
+    
+    // Lets encrypt response
+    var letsEncryptUrl = process.env.LETS_ENCRYPT;
+    var letsEncryptResponse = process.env.LETS_ENCRYPT_RESPONSE;
+
+    if(letsEncryptResponse != undefined && letsEncryptResponse != undefined) {
+      self.app.get('/.well-known/acme-challenge/' + 
+           letsEncryptUrl, function (req, res) {
+        res.send(letsEncryptResponse);
+        res.end();
+      });
+    } 
 
 } else if (process.env.APP_URL === "https://banya-bot-stellarnode.c9users.io/") {
     
