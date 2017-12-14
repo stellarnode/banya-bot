@@ -388,7 +388,7 @@ if (process.env.OPENSHIFT_GEAR_DNS) {
     var letsEncryptResponse = process.env.LETS_ENCRYPT_RESPONSE;
 
     if(letsEncryptResponse != undefined && letsEncryptResponse != undefined) {
-      self.app.get('/.well-known/acme-challenge/' + 
+      app.get('/.well-known/acme-challenge/' + 
            letsEncryptUrl, function (req, res) {
         res.send(letsEncryptResponse);
         res.end();
