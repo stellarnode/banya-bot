@@ -32,7 +32,7 @@
     "dotenv": "^1.2.0",
     "express": "^4.13.4",
     "forever": "^0.15.1",
-    "mongodb": ">=2.1.7",
+    "mongodb": ">=3.1.13",
     "mongoose": ">=4.10.0",
     "teabot": "^2.0.0",
     "teabot-botan": "^1.0.1"
