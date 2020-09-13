@@ -365,7 +365,7 @@ if (ip_address && !process.env.APP_URL) {
 if (process.env.OPENSHIFT_GEAR_DNS) {
     
     // Webhook option
-    console.log("...USING WEBHOOK ON OPENSHIFT.");
+    console.log("...USING WEBHOOK ON HEROKU (PREVIOUSLY WAS ON OPENSHIFT).");
     TeaBot.setWebhook('https://' + process.env.OPENSHIFT_GEAR_DNS + '/AAHaCgMCHBKK3Cy7UmI5TTBSrX4zGGpLv50');
     
     app.post('/AAHaCgMCHBKK3Cy7UmI5TTBSrX4zGGpLv50', function (req, res) {
